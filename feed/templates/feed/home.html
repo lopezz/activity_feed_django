@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous">
+    </script>
+
+</head>
+<body>
+    <h2>Who are you?</h2>
+    <select name="user" id="user">
+        <option value="" disabled selected="selected">Chose your name</option>
+        {% for user in registered_users %}
+            <option value="{{ user.pk }}">{{ user }}</option>
+        {% endfor %}
+    </select>
+
+    <h2>Filter:</h2>
+    <select name="filter" id="filter">
+        <option value="my_posts"> My posts </option>
+        <option value="tracked">Me and the users I track</option>
+        <option value="all">Everybody's posts</option>
+    </select>
+    <button id="getFeed">go!</button>
+
+    <pre id="feed"></pre>
+
+    <script>
+            var getFeedButton = document.getElementById('getFeed');
+            var endpoint = 'get_feed'
+            getFeedButton.addEventListener('click', function() {
+                var user_id = $('#user').val()
+                if(!user_id) {
+                    alert('Please tellme who you are')
+                }
+                else {
+                    var filter = $('#filter').val()
+                    getFeed(user_id, filter)
+                }
+            })
+
+            function getFeed(user_id, filter) {
+                let req_url;
+                switch(filter) {
+                    case 'my_posts':
+                        req_url = `${endpoint}/${user_id}`;
+                        break;
+                    case 'tracked':
+                        req_url = `${endpoint}/${user_id}/?tracked=true`;
+                        break;
+                    default:
+                        req_url = endpoint;
+                }
+
+                $.get(req_url).then((data)=> {
+                    console.log(data);
+                    $('#feed').html(JSON.stringify(data, undefined, 2));
+                });
+            }
+        </script>
+</body>
+</html>
