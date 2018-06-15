@@ -1,13 +1,8 @@
-# from django.template.response import SimpleTemplateResponse
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.views import View
 from django.views.generic import TemplateView
-from django.db.models import Q
 
 from .models import FeedItem, RegisteredUser
-
-import json
-
 
 def home(request):
     pass

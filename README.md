@@ -1,5 +1,5 @@
 ## Requirements
-* Python 3.5+
+* Python 3
 
 ## Installation
 * In order to run your own build, first ensure you have python3 globally installed in your computer. If not, you can get python [here](https://www.python.org).
